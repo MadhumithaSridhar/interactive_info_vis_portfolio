@@ -17,8 +17,24 @@ registerSketch('sk3', function (p) {
   };
 
   p.draw = function () {
-    p.background(10, 15, 30); // fixed typo
+    p.background(10, 15, 30);
+    
+    let h = p.hour();
+    let name = getConstellationName(h);
+
+    p.fill(100, 200, 220);
+    p.noStroke();
+    p.textSize(22);
+    p.textStyle(p.ITALIC);
+    p.text(`${name} Rising`, p.width/2, p.height - 150);
   };
+
+  function getConstellationName(h) {
+    if (h === 0) return "Phoenix";
+    if (h >= 1 && h < 5) return "Owl";
+    if (h === 6) return "Rooster";
+    return "The Wanderer";
+  }
 
   p.windowResized = function () {
     p.resizeCanvas(p.windowWidth, p.windowHeight);
