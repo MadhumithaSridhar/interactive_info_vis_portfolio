@@ -5,13 +5,13 @@ registerSketch('sk2', function (p) {
 
   p.setup = function () {
     p.createCanvas(p.windowWidth, p.windowHeight);
-    p.textAlign([p.CENTER, p.CENTER]);
+    p.textAlign(p.CENTER, p.CENTER);;
   };
   p.draw = function () {
     p.background(210, 240, 245);
     p.textSize(32);
     p.textAlign(p.CENTER, p.CENTER);
-    p.text('HWK #4. A', p.width / 2, p.height / 2);
+    // p.text('HWK #4. A', p.width / 2, p.height / 2);
     drawTimeline();
   };
   function drawTimeline() {
