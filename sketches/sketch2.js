@@ -7,34 +7,27 @@ registerSketch('sk2', function (p) {
   p.setup = function () {
     p.createCanvas(p.windowWidth, p.windowHeight);
     p.textAlign(p.CENTER, p.CENTER);
-
-    // setup for initial cloud states
-    for (let i = 0; i < 4; i++){
-      clouds.push({
-        x: p.random(0, p.width),
-        y: p.random(60, 200), 
-        speed: p.random(0.1, 0.4)
-      })
-    }
   };
 
   p.draw = function () {
-    // collecting time variables
     let h = p.hour();
     let m = p.minute();
     let s = p.second();
-
-    // converting to a single decimal val for smooth mvmt
     let totalHours = h + (m / 60) + (s / 3600);
 
-    // 1) draw environment
     p.background(210, 240, 245);
+
+    if (clouds.length < h) {
+      clouds.push({ x: p.random(0, p.width), y: p.random(60, 200), speed: p.random(0.1, 0.4) });
+   } else if (clouds.length > h) {
+      clouds.pop();
+   }
     
-    // 2) draw celestial body
+    drawClouds(m); 
+    
     let sunPos = getSunPosition(totalHours);
     drawSun(sunPos.x, sunPos.y);
     
-    // 3) draw landscape
     drawTimeline();
     drawCategories(h);
   };
@@ -87,24 +80,32 @@ registerSketch('sk2', function (p) {
     ];
 
     let spacing = p.width / categories.length;
+    
+    // Find which category index is currently the "best match"
+    let activeIndex = 0;
+    let minDiff = 24;
+    
+    categories.forEach((cat, i) => {
+      let diff = p.abs(currentHour - cat.h);
+      if (diff < minDiff) {
+        minDiff = diff;
+        activeIndex = i;
+      }
+    });
 
     categories.forEach((cat, i) => {
       let x = i * spacing + (spacing / 2);
       let y = 720;
 
-      // color box
       p.fill(cat.col);
       p.noStroke();
       p.rect(x - 35, y, 70, 18, 4);
-
-      // lavel
       p.fill(0);
       p.textStyle(p.BOLD);
       p.text(cat.name, x, y + 40);
 
-      // current time indicator (triangle)
-      // check if current hour falls within this category's rough window
-      if (currentHour === cat.h || (currentHour >= cat.h - 1 && currentHour <= cat.h + 1)) {
+      // only draw triangle for the single best match
+      if (i === activeIndex) {
         p.fill(180, 0, 0);
         p.triangle(x, y - 10, x - 7, y - 22, x + 7, y - 22);
       }
