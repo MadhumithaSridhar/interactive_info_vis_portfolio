@@ -30,7 +30,7 @@ registerSketch('sk3', function (p) {
   function drawConstellation(points, currentMin) {
     p.strokeWeight(1);
     
-    for (let i = 1; i <= currentMin; i++) {
+    for (let i = 0; i <= currentMin; i++) {
       let pt = points[i];
 
       if (i > 0) {
@@ -57,7 +57,7 @@ registerSketch('sk3', function (p) {
     p.noStroke();
     p.textSize(22);
     p.textStyle(p.ITALIC);
-    p.text(`${name} Rising: ${m + 1} / 60 stars`, p.width/2, p.height - 150);
+    p.text(`${name} Rising: ${m} / 60 stars`, p.width/2, p.height - 150);
   }
 
   function getConstellationName(h) {
