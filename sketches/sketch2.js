@@ -1,11 +1,21 @@
 // Instance-mode sketch for tab 2
 registerSketch('sk2', function (p) {
+  let clouds = [];
   const horizonY = 450;
   const margin = 60;
 
   p.setup = function () {
     p.createCanvas(p.windowWidth, p.windowHeight);
-    p.textAlign(p.CENTER, p.CENTER);;
+    p.textAlign(p.CENTER, p.CENTER);
+
+    // setup for initial cloud states
+    for (let i = 0; i < 4; i++){
+      clouds.push({
+        x: p.random(0, p.width),
+        y: p.random(60, 200), 
+        speed: p.random(0.1, 0.4)
+      })
+    }
   };
 
   p.draw = function () {
@@ -99,6 +109,23 @@ registerSketch('sk2', function (p) {
         p.triangle(x, y - 10, x - 7, y - 22, x + 7, y - 22);
       }
     });
+  }
+
+  function drawClouds(m) {
+    p.noStroke();
+    p.fill(255, 255, 255, 180);
+
+    for (let c of clouds) {
+      // logic: minute influences the horizontal offset
+      let minuteShift = m * 0.8;
+      let xPos = (c.x + minuteShift) % (p.width + 150);
+
+      p.ellipse(xPos - 50, c.y, 110, 45);
+      p.ellipse(xPos - 25, c.y - 15, 80, 50);
+
+      c.x += c.speed; // Drift speed
+      if (c.x > p.width + 100) c.x = -150;
+    }
   }
 
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
