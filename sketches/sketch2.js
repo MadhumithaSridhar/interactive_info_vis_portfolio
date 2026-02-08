@@ -5,7 +5,7 @@ registerSketch('sk2', function (p) {
   const margin = 60;
 
   p.setup = function () {
-    p.createCanvas(p.windowWidth, p.windowHeight);
+    p.createCanvas(800, 800);
     p.textAlign(p.CENTER, p.CENTER);
   };
 
