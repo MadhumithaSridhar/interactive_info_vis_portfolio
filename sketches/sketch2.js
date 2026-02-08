@@ -10,11 +10,15 @@ registerSketch('sk2', function (p) {
   };
 
   p.draw = function () {
+    // collect time vars
     let h = p.hour();
     let m = p.minute();
     let s = p.second();
+
+    // convert to single decimal val for smooth movement
     let totalHours = h + (m / 60) + (s / 3600);
 
+    // 1) draw environment
     p.background(210, 240, 245);
 
     if (clouds.length < h) {
@@ -23,17 +27,23 @@ registerSketch('sk2', function (p) {
       clouds.pop();
    }
     
-    drawClouds(m); 
+    drawClouds(m); // clouds drift subtly based on minutes
     
+    // 2) draw celestial body
     let sunPos = getSunPosition(totalHours);
     drawSun(sunPos.x, sunPos.y);
     
+    // 3) draw landscape
     drawTimeline();
     drawCategories(h);
   };
 
+  // logic: maps 0-24 hours to an equidistant horizontal path and sine arc
   function getSunPosition(time) {
+    // equidistant horizontal: 0-24 mapped to canvas width
     let x = p.map(time, 0, 24, margin, p.width - margin);
+
+    // vertical arc: peak at 12, low at midnight (0/24)
     let angle = p.map(time, 0, 24, 0, p.PI);
     let arcHeight = 330; 
     let y = horizonY - p.sin(angle) * arcHeight;
@@ -47,14 +57,17 @@ registerSketch('sk2', function (p) {
   }
 
   function drawTimeline() {
+    // the ground
     p.noStroke();
     p.fill(185, 225, 135);
     p.rect(0, horizonY, p.width, p.height - horizonY);
 
+    // main axis
     p.stroke(100);
     p.strokeWeight(2);
     p.line(margin, horizonY, p.width - margin, horizonY);
 
+    // equidistant ticks
     let markers = [0, 6, 12, 18, 24];
     markers.forEach(hr => {
       let x = p.map(hr, 0, 24, margin, p.width - margin);
@@ -81,7 +94,7 @@ registerSketch('sk2', function (p) {
 
     let spacing = p.width / categories.length;
     
-    // Find which category index is currently the "best match"
+    // find which category index is currently the "best match"
     let activeIndex = 0;
     let minDiff = 24;
     
