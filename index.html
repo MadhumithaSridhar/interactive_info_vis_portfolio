@@ -51,51 +51,92 @@
     <!-- Homework 4: Sketch 1 -->
     <section id="tab2" class="tab-content" role="tabpanel">
       <div id="sketch-container-sk2" class="sketch-container"></div>
-      <div id="sketch-drawing-sk2" class="sketch-evolution">
-        <!-- Project narrative template: replace the text below with your own narrative -->
-        <div class="sketch-narrative" aria-labelledby="sk2-narrative-title">
-          <h3 id="sk2-narrative-title">Sketch narrative (replace this and add to the other two sketches!)</h3>
-          <p class="small-note">Replace this entire block with your own text when submitting.</p>
-          <p>
-            Context: Briefly describe the situation or user need this sketch addresses. For example,
-            "This sketch visualizes sunrise/sunset behavior for a simple teaching demo on coordinate
-            systems and interaction." Keep it short — 1–2 sentences.
-          <ul>
-            <li><strong>Context:</strong> Who is this for? In what context will it be used? (e.g., mountain, pomodoro,
-              running, cooking, breathing?)</li>
-            <li><strong>Design decisions:</strong> Explain 2–3 key choices you made (layout, color, interaction) and why
-              you made them. Use plain language and reference any constraints (time, accessibility,
-              or target device).</li>
-            <li><strong>Future work:</strong> 1–2 ideas for improvements or extensions.</li>
-          </ul>
-          </p>
+      <div class="sketch-evolution">
+        <div class="sketch-narrative">
+          <h3>Solar Transit Narrative</h3>
+          <p><strong>Context:</strong> Designed for students, this visualization helps track the broader arc of the day to reduce "time anxiety" during long study sessions.</p>
+          <p><strong>Design decisions:</strong> I mapped the 24-hour cycle to an equidistant horizontal path and a sine-wave arc to mimic natural circadian rhythms. The "Category" markers at the bottom provide perceptual anchors for the user to understand their stage in the day at a glance. [cite: 10, 115]</p>
+          <p><strong>Future work:</strong> Adding real-time weather data to influence the cloud density.</p>
         </div>
 
         <h3>Sketch evolution</h3>
-        <p class="small-note">Replace <b>these images</b> with your own sketch evolution images.</p>
         <figure>
-          <!-- <img src="images/sk2-evolution-1.png" alt="Sketch #A - step 1" /> -->
-          <figcaption>Step 1 — initial layout and annotated design decisions</figcaption>
+          <img src="images/sk2-evolution-1.png" alt="Initial Sketch" />
+          <figcaption>Step 1 — Defined a clear coordinate system where time is represented linearly across the width of the screen. </figcaption>
         </figure>
         <figure>
-          <!-- <img src="images/sk2-evolution-2.png" alt="Sketch #A - step 2" /> -->
-          <figcaption>Step 2 — second layout after peer feedback</figcaption>
+          <img src="images/sk2-evolution-2.png" alt="First Code Iteration" />
+          <figcaption>Step 2 — Translated abstract numerical time into a familiar parabolic sun arc, peak at noon and lowest at midnight. </figcaption>
         </figure>
         <figure>
-          <!-- <img src="images/sk2-evolution-3.png" alt="Sketch #A - step 3" /> -->
-          <figcaption>Step 3 — refined visuals and annotations</figcaption>
+          <img src="images/sk2-evolution-3.png" alt="Feedback Iteration" />
+          <figcaption>Step 3 — Provided a legend that tracks current time, improving the user's perception of "where" they are in their study cycle. </figcaption>
+        </figure>
+        <figure>
+          <img src="images/sk2-evolution-4.png" alt="Final Polish" />
+          <figcaption>Step 4 — Finalized the visual encoding choices (motion and layout) to make the design feel "alive" and responsive. </figcaption>
         </figure>
       </div>
     </section>
 
-    <!-- Homework 4: Sketch 1 -->
     <section id="tab3" class="tab-content" role="tabpanel">
       <div id="sketch-container-sk3" class="sketch-container"></div>
+      <div class="sketch-evolution">
+        <div class="sketch-narrative">
+          <h3>The Constellation Narrative</h3>
+          <p><strong>Context:</strong> Targeted at late-night focus, representing time as a growing, beautiful form.</p>
+          <p><strong>Design decisions:</strong> Minutes are encoded as rising stars. I used 15-minute "Key Stars" to provide quick temporal orientation without numerical distraction.</p>
+          <p><strong>Future work:</strong> Interactive star-naming and different constellation shapes per hour.</p>
+        </div>
+
+        <h3>Sketch evolution</h3>
+        <figure>
+          <img src="images/sk3-evolution-1.png" alt="Sketch B - Step 1" />
+          <figcaption>Step 1 — Create the underlying geometric structure for the visualization. No drawing yet, just background displayed.</figcaption>
+        </figure>
+        <figure>
+          <img src="images/sk3-evolution-2.png" alt="Sketch B - Step 2" />
+          <figcaption>Step 2 — Connect the real-world time to the visual theme and select different celestial animals for different hours. /figcaption>
+        </figure>
+        <figure>
+          <img src="images/sk3-evolution-3.png" alt="Sketch B - Step 3" />
+          <figcaption>Step 3 — Ensure technical accuracy and clarity. </figcaption>
+        </figure>
+        <figure>
+          <img src="images/sk3-evolution-4.png" alt="Sketch B - Step 4" />
+          <figcaption>Step 4 — Make the design feel "alive and responsive"  while encoding the passing of minutes through star accumulation.</figcaption>
+        </figure>
+      </div>
     </section>
 
-    <!-- Homework 4: Sketch 1 -->
     <section id="tab4" class="tab-content" role="tabpanel">
       <div id="sketch-container-sk4" class="sketch-container"></div>
+      <div class="sketch-evolution">
+        <div class="sketch-narrative">
+          <h3>The Breathing Circle Narrative</h3>
+          <p><strong>Context:</strong> A mindfulness tool for managing stress during intense study periods. </p>
+          <p><strong>Design decisions:</strong> Radius is mapped to a 12-second breath cycle. HSL color shifts track the 24-hour day to maintain a subtle long-term awareness.</p>
+          <p><strong>Future work:</strong> Toggleable breathing patterns for different relaxation needs.</p>
+        </div>
+
+        <h3>Sketch evolution</h3>
+        <figure>
+          <img src="images/sk4-evolution-1.png" alt="Sketch C - Step 1" />
+          <figcaption>Step 1 — Set up the canvas and initialized the HSL color mode.</figcaption>
+        </figure>
+        <figure>
+          <img src="images/sk4-evolution-2.png" alt="Sketch C - Step 2" />
+          <figcaption>Step 2 — Use background color as a subtle encoding for the time of day. </figcaption>
+        </figure>
+        <figure>
+          <img src="images/sk4-evolution-3.png" alt="Sketch C - Step 3" />
+          <figcaption>Step 3 — Create a design that feels "alive and responsive" by syncing visual motion with a human biological rhythm. </figcaption>
+        </figure>
+        <figure>
+          <img src="images/sk4-evolution-4.png" alt="Sketch C - Step 4" />
+          <figcaption>Step 4 — Added dashed ripples on the exhale, a smooth hour progress arc, and a digital clock overlay for clarity.</figcaption>
+        </figure>
+      </div>
     </section>
 
 

@@ -55,3 +55,9 @@ canvas {
   height: auto;
   display: block;
 }
+
+/* adding style to make iteration photos 800x800 */
+.tab-content img {
+  width: 800px;
+  height: 800px;
+}
