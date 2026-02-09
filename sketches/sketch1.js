@@ -4,7 +4,7 @@ registerSketch('sk1', function (p) {
 
   p.setup = function () {
     // size to the full window so canvas always matches the viewport
-    p.createCanvas(p.windowWidth, p.windowHeight);
+    p.createCanvas(p.windowWidth, p.windowHeight); // 800 x 800 size looks really odd for this visualization
     p.noStroke();
     horizon = p.height / 2;
   };
