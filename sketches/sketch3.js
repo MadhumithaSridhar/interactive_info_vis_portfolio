@@ -33,8 +33,17 @@ registerSketch('sk3', function (p) {
     for (let i = 0; i <= currentMin; i++) {
       let pt = points[i];
 
+      // --- ITERATION 2: PERCEPTION (PAST VS PRESENT) ---
       if (i > 0) {
-        p.stroke(255, 255, 200, 50);
+        if (i === currentMin) {
+          // the most recent minute is bright and clear
+          p.stroke(255, 255, 200, 180); 
+          p.strokeWeight(2);
+        } else {
+          // past minutes are very faint to reduce visual clutter
+          p.stroke(255, 255, 200, 30); 
+          p.strokeWeight(1);
+        }
         p.line(points[i-1].x, points[i-1].y, pt.x, pt.y);
       }
 
@@ -42,7 +51,6 @@ registerSketch('sk3', function (p) {
 
       if (pt.isKey) {
         // --- ITERATION 1: GLOW EFFECT ---
-        // creating an outer pulsing glow by drawing concentric circles with low opacity
         let pulse = p.sin(p.frameCount * 0.1) * 5;
         p.noStroke();
         for (let j = 3; j > 0; j--) {
@@ -50,13 +58,16 @@ registerSketch('sk3', function (p) {
           p.circle(pt.x, pt.y, (12 + pulse) * j);
         }
         
-        // main key star body
         p.fill(255, 215, 0, twinkle);
         p.circle(pt.x, pt.y, 10 + p.sin(p.frameCount * 0.1) * 2);
       } else {
-        p.fill(255, twinkle);
+        // current star is slightly larger and brighter than past stars
+        let starSize = (i === currentMin) ? 7 : 4;
+        let starAlpha = (i === currentMin) ? 255 : twinkle;
+        
+        p.fill(255, starAlpha);
         p.noStroke();
-        p.circle(pt.x, pt.y, 4);
+        p.circle(pt.x, pt.y, starSize);
       }
     }
   }
