@@ -41,9 +41,18 @@ registerSketch('sk3', function (p) {
       let twinkle = p.map(p.sin(p.frameCount * 0.05 + i), -1, 1, 150, 255);
 
       if (pt.isKey) {
-        p.fill(255, 215, 0, twinkle);
+        // --- ITERATION 1: GLOW EFFECT ---
+        // creating an outer pulsing glow by drawing concentric circles with low opacity
+        let pulse = p.sin(p.frameCount * 0.1) * 5;
         p.noStroke();
-        p.circle(pt.x, pt.y, 8 + p.sin(p.frameCount * 0.1) * 2);
+        for (let j = 3; j > 0; j--) {
+          p.fill(255, 215, 0, 0.1); 
+          p.circle(pt.x, pt.y, (12 + pulse) * j);
+        }
+        
+        // main key star body
+        p.fill(255, 215, 0, twinkle);
+        p.circle(pt.x, pt.y, 10 + p.sin(p.frameCount * 0.1) * 2);
       } else {
         p.fill(255, twinkle);
         p.noStroke();
