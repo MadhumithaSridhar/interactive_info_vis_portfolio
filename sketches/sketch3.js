@@ -36,11 +36,9 @@ registerSketch('sk3', function (p) {
       // --- ITERATION 2: PERCEPTION (PAST VS PRESENT) ---
       if (i > 0) {
         if (i === currentMin) {
-          // the most recent minute is bright and clear
           p.stroke(255, 255, 200, 180); 
           p.strokeWeight(2);
         } else {
-          // past minutes are very faint to reduce visual clutter
           p.stroke(255, 255, 200, 30); 
           p.strokeWeight(1);
         }
@@ -48,6 +46,11 @@ registerSketch('sk3', function (p) {
       }
 
       let twinkle = p.map(p.sin(p.frameCount * 0.05 + i), -1, 1, 150, 255);
+
+      // --- ITERATION 3: INTERACTIVITY (HOVER) ---
+      // chheck distance between mouse and the star
+      let d = p.dist(p.mouseX, p.mouseY, pt.x, pt.y);
+      let isHovered = d < 10;
 
       if (pt.isKey) {
         // --- ITERATION 1: GLOW EFFECT ---
@@ -61,13 +64,20 @@ registerSketch('sk3', function (p) {
         p.fill(255, 215, 0, twinkle);
         p.circle(pt.x, pt.y, 10 + p.sin(p.frameCount * 0.1) * 2);
       } else {
-        // current star is slightly larger and brighter than past stars
-        let starSize = (i === currentMin) ? 7 : 4;
-        let starAlpha = (i === currentMin) ? 255 : twinkle;
+        let starSize = (i === currentMin || isHovered) ? 8 : 4;
+        let starAlpha = (i === currentMin || isHovered) ? 255 : twinkle;
         
         p.fill(255, starAlpha);
         p.noStroke();
         p.circle(pt.x, pt.y, starSize);
+      }
+
+      // draw tooltip for Hover
+      if (isHovered) {
+        p.fill(255);
+        p.textSize(14);
+        p.textAlign(p.LEFT, p.BOTTOM);
+        p.text("Min: " + i, pt.x + 10, pt.y - 10);
       }
     }
   }
