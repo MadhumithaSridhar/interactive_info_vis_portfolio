@@ -41,7 +41,7 @@ let targetScrollX = 0;
 let cardWidth = 850; 
 let cardGap = 80;
 // using constants to optimize for IG dims -- still wanted to make it look good for web view for website
-const INSTA_W = 1080;
+const INSTA_W = 1080; 
 const INSTA_H = 1920;
 // allows for toggle mode
 let isBelieverMode = true;
