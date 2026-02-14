@@ -34,39 +34,68 @@ registerSketch('sk5', function (p) {
       {"Madden_Title": "Madden NFL 2026", "Athlete_Name": "Saquon Barkley", "year": 2025, "pos": "RB", "Team": "Philadelphia Eagles", "gpBefore": 17, "gpAfter": 0, "avBefore": 18, "avAfter": 9, "injuryLevel": 0, "injuryDesc": "None", "category": "Significant Decrease", "imgUrl": "https://upload.wikimedia.org/wikipedia/en/8/8b/Madden_NFL_26_cover.jpg"},
     ];
 
-  let athletes = [];
-  let scrollX = 0;
-  let targetScrollX = 0;
-  let cardWidth = 850;
-  let cardGap = 80;
-  const INSTA_W = 1080;
-  const INSTA_H = 1920;
-  let isBelieverMode = true;
-
-  p.preload = function () {
-    // loading the images for each athlete (with fallback in case the links don't work)
-    rawData.forEach(d => {
-      let athleteObj = {...d};
-      athleteObj.img = p.loadImage(d.imgUrl, 
-        () => {}, // success callback
-        () => { athleteObj.img = null; } // error callback
-      );
-      athletes.push(athleteObj);
-    });
-  };
-
-  p.setup = function () {
-    p.createCanvas(p.windowWidth, p.windowHeight);
-  };
-
-  p.draw = function () {
-    p.background(25);
-    p.fill(255);
-    p.textSize(32);
-    p.text("Iteration 1: Data loaded and canvas ready", 50, 50);
-  };
-
-  p.windowResized = function () {
-    p.resizeCanvas(p.windowWidth, p.windowHeight);
-  };
-});
+    let athletes = [];
+    let scrollX = 0;
+    let targetScrollX = 0;
+    let cardWidth = 400;
+    let cardGap = 60;
+    let hoveredIndex = -1;
+  
+    p.setup = function () {
+      p.createCanvas(p.windowWidth, p.windowHeight);
+  
+      // copying data to athletes array
+      athletes = rawData.map(d => ({ ...d }));
+    };
+  
+    p.draw = function () {
+      p.background(20);
+  
+      // allowing for smooth scrolling
+      scrollX = p.lerp(scrollX, targetScrollX, 0.1);
+  
+      // header details
+      p.fill(255);
+      p.textSize(32);
+      p.text("Madden Cover Timeline", 50, 50);
+  
+      // drawing the timeline cards
+      p.push();
+      p.translate(scrollX + 50, 150);
+  
+      hoveredIndex = -1;
+      athletes.forEach((data, i) => {
+        let x = i * (cardWidth + cardGap);
+  
+        // card rectangle
+        p.fill(50, 50, 80);
+        p.stroke(255, 50);
+        p.rect(x, 0, cardWidth, 250, 15);
+  
+        // text info
+        p.noStroke();
+        p.fill(255);
+        p.textSize(18);
+        p.text(data.Madden_Title, x + 15, 30);
+        p.textSize(24);
+        p.textStyle(p.BOLD);
+        p.text(data.Athlete_Name, x + 15, 70);
+        p.textStyle(p.NORMAL);
+        p.fill(200);
+        p.text(data.pos + " | Year: " + data.year, x + 15, 110);
+      });
+  
+      p.pop();
+    };
+  
+    // scrolling horizontally - previously it was vertical so a function needs to be created to implement this
+    p.mouseWheel = function (event) {
+      targetScrollX -= event.delta;
+      let maxScroll = -(athletes.length * (cardWidth + cardGap) - p.width + 100);
+      targetScrollX = p.constrain(targetScrollX, maxScroll, 0);
+    };
+  
+    p.windowResized = function () {
+      p.resizeCanvas(p.windowWidth, p.windowHeight);
+    };
+  });
