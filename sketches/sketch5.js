@@ -39,40 +39,41 @@ registerSketch('sk5', function (p) {
     let targetScrollX = 0;
     let cardWidth = 400;
     let cardGap = 60;
-    let hoveredIndex = -1;
+  
+    p.preload = function () {
+      rawData.forEach(d => {
+        let athleteObj = { ...d };
+        athleteObj.img = p.loadImage(d.imgUrl, () => {}, () => { athleteObj.img = null; });
+        athletes.push(athleteObj);
+      });
+    };
   
     p.setup = function () {
       p.createCanvas(p.windowWidth, p.windowHeight);
-  
-      // copying data to athletes array
-      athletes = rawData.map(d => ({ ...d }));
     };
   
     p.draw = function () {
       p.background(20);
   
-      // allowing for smooth scrolling
       scrollX = p.lerp(scrollX, targetScrollX, 0.1);
   
-      // header details
+      // header
       p.fill(255);
       p.textSize(32);
       p.text("Madden Cover Timeline", 50, 50);
   
-      // drawing the timeline cards
       p.push();
       p.translate(scrollX + 50, 150);
   
-      hoveredIndex = -1;
       athletes.forEach((data, i) => {
         let x = i * (cardWidth + cardGap);
   
-        // card rectangle
+        // card Body
         p.fill(50, 50, 80);
         p.stroke(255, 50);
-        p.rect(x, 0, cardWidth, 250, 15);
+        p.rect(x, 0, cardWidth, 400, 15);
   
-        // text info
+        // test info
         p.noStroke();
         p.fill(255);
         p.textSize(18);
@@ -83,12 +84,62 @@ registerSketch('sk5', function (p) {
         p.textStyle(p.NORMAL);
         p.fill(200);
         p.text(data.pos + " | Year: " + data.year, x + 15, 110);
+  
+        // image details
+        let imgSize = 120;
+        let imgX = x + cardWidth - imgSize - 20;
+        let imgY = 20;
+  
+        if (data.img) {
+          let aspect = data.img.width / data.img.height;
+          let dw = imgSize;
+          let dh = imgSize / aspect;
+          if (dh > imgSize) {
+            dh = imgSize;
+            dw = imgSize * aspect;
+          }
+          p.imageMode(p.CENTER);
+          p.image(data.img, imgX + imgSize / 2, imgY + imgSize / 2, dw, dh);
+          p.imageMode(p.CORNER);
+        } else {
+          p.fill(40);
+          p.rect(imgX, imgY, imgSize, imgSize, 10);
+        }
+  
+        // --- inserting STATS ---
+        drawStat(p, x + 15, 150, "Games Played", data.gpBefore, data.gpAfter, 17);
+        drawStat(p, x + 15, 230, "Impact (AV Stat)", data.avBefore, data.avAfter, 25);
+  
+        // --- inserting INJURY INDICATOR ---
+        let icon = "";
+        if (data.injuryLevel === 3) icon = "🏥";
+        else if (data.injuryLevel > 0) icon = "⚠️";
+        p.textSize(32);
+        p.textAlign(p.LEFT);
+        p.fill(231, 76, 60);
+        if (icon) p.text(icon + " " + data.injuryDesc, x + 15, 320);
       });
   
       p.pop();
     };
   
-    // scrolling horizontally - previously it was vertical so a function needs to be created to implement this
+    function drawStat(p, x, y, label, before, after, maxVal) {
+      p.textSize(14);
+      p.fill(200);
+      p.text(label, x, y);
+      let barW = 200;
+      p.fill(100);
+      p.rect(x, y + 10, barW, 12, 4); // before bar background
+      p.fill(255);
+      p.rect(x, y + 10, p.map(before, 0, maxVal, 0, barW), 12, 4);
+      p.fill(255, 150);
+      p.rect(x, y + 24, p.map(after, 0, maxVal, 0, barW), 12, 4);
+      p.fill(255);
+      p.textSize(12);
+      p.text("Before: " + before + "  |  After: " + after, x, y + 50);
+    }
+  
+    // scrolling horizontally - needed to create a function for this
     p.mouseWheel = function (event) {
       targetScrollX -= event.delta;
       let maxScroll = -(athletes.length * (cardWidth + cardGap) - p.width + 100);
